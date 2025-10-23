@@ -20,6 +20,7 @@ import razorpay_logo from './razorpay_logo.png'
 import haircut from './haircut.png'
 import style from './style.png'
 import color from './color.png'
+import banner from './banner.png'
 import doc1 from './doc1.png'
 import doc2 from './doc2.png'
 import doc3 from './doc3.png'
@@ -45,6 +46,7 @@ import General_physician from './General_physician.svg'
 export const assets = {
     appointment_img,
     header_img,
+    banner,
     group_profiles,
     logo,
     full_logo,
@@ -81,14 +83,14 @@ export const serviceCategories = [
 
 export const servicesData = [
     {
-        _id: 1,
+        _id: '1',
         name: `Men's Haircut`,
         category: 'Haircut',
         image: haircut,
         repeatEvery: 'Every 3 Weeks',
     },
     {
-        _id: 2,
+        _id: '2',
         name: `Women's Haircut`,
         category: 'Haircut',
         image: haircut,
@@ -96,21 +98,21 @@ export const servicesData = [
 
     },
     {
-        _id: 3,
+        _id: '3',
         name: 'Blowout',
         category: 'Style',
         image: style,
         repeatEvery: 'On a Special Occasion',
     },
     {
-        _id: 4,
+        _id: '4',
         name: 'Full Color',
         category: 'Color',
         image: color,
         repeatEvery: 'Every 3 Months',
     },
     {
-        _id: 5,
+        _id: '5',
         name: 'Straightning',
         category: 'Style',
         image: style,
@@ -118,28 +120,28 @@ export const servicesData = [
     },
     
     {
-        _id: 6,
+        _id: '6',
         name: 'Partial Highlights',
         category: 'Color',
         image: color,
         repeatEvery: 'Every 3 Months',
     },
     {
-        _id: 7,
+        _id: '7',
         name: 'Full Highlights',
         category: 'Color',
         image: color,
         repeatEvery: 'Every 3 Months',
     },
     {
-        _id: 8,
+        _id: '8',
         name: 'Root Touch Up',
         category: 'Color',
         image: color,
         repeatEvery: 'Every 6 Weeks',
     },
     {
-        _id: 9,
+        _id: '9',
         name: 'Extension',
         category: 'Style',
         image: style,
@@ -149,19 +151,16 @@ export const servicesData = [
 
 export const popularServices = [
     {
-        _id: 1,
+        _id: '1',
     },
     {
-        _id: 4,
+        _id: '7',
     },
     {
-        _id: 7,
+        _id: '5',
     },
     {
-        _id: 5,
-    },
-    {
-        _id: 9,
+        _id: '9',
     },
 ]
 

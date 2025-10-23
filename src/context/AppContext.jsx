@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { servicesData, popularServices } from "../assets/assets";
+import { servicesData, popularServices, serviceCategories } from "../assets/assets";
 
 export const AppContext = createContext()
 
@@ -7,7 +7,8 @@ const AppContextProvider = (props) => {
     
     const value = {
         servicesData,
-        popularServices
+        popularServices,
+        serviceCategories
     }
 
     return (

@@ -11,11 +11,11 @@ const ServiceMenu = () => {
             {/* <p className='sm:w-1/3 text-center text-sm'>Take a look through our wide selection of services.<br />
                 Whether you've got something in mind or need a little guidance, we'll help you decide with confidence.</p> */}
 
-            <div className='flex sm:justify-center gap-4 pt-5 w-full overflow-scroll'>
+            <div className='flex flex-wrap sm:justify-center gap-4 pt-5 w-full overflow-scroll'>
                 {serviceCategories.map((item, index) => (
                     <Link className='flex flex-col items-center text-xs px-5 cursor-pointer shrink-0 hover:translate-y-[-10px] transition-all duration-500'
                         to={`/services/${getSlugFromServiceName(item.name)}`} key={index}
-                        onClick={() => { scrollTo(0) }}>
+                        onClick={() => { scrollTo(0, 0) }}>
                         <img className='w-24 sm:w-30 mb-2 rounded-full border border-primary' src={item.image} alt="" />
                         <p>{item.name}</p>
                     </Link>
