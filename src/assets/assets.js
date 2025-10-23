@@ -17,6 +17,9 @@ import info_icon from './info_icon.svg'
 import upload_icon from './upload_icon.png'
 import stripe_logo from './stripe_logo.png'
 import razorpay_logo from './razorpay_logo.png'
+import haircut from './haircut.png'
+import style from './style.png'
+import color from './color.png'
 import doc1 from './doc1.png'
 import doc2 from './doc2.png'
 import doc3 from './doc3.png'
@@ -32,12 +35,7 @@ import doc12 from './doc12.png'
 import doc13 from './doc13.png'
 import doc14 from './doc14.png'
 import doc15 from './doc15.png'
-import Dermatologist from './Dermatologist.svg'
-import Gastroenterologist from './Gastroenterologist.svg'
 import General_physician from './General_physician.svg'
-import Gynecologist from './Gynecologist.svg'
-import Neurologist from './Neurologist.svg'
-import Pediatricians from './Pediatricians.svg'
 
 // Images to get :
 // Men's Haircut, Women's Haircut, Blowout, Full Color, 
@@ -66,53 +64,105 @@ export const assets = {
     razorpay_logo
 }
 
+export const serviceCategories = [
+    {
+        name: 'Haircut',
+        image: haircut,
+    },
+    {
+        name: 'Style',
+        image: style,
+    },
+    {
+        name: 'Color',
+        image: color,
+    },
+]
+
 export const servicesData = [
     {
+        _id: 1,
         name: `Men's Haircut`,
         category: 'Haircut',
-        image: General_physician
+        image: haircut,
+        repeatEvery: 'Every 3 Weeks',
     },
     {
+        _id: 2,
         name: `Women's Haircut`,
         category: 'Haircut',
-        image: General_physician
+        image: haircut,
+        repeatEvery: 'Every 2 Months',
+
     },
     {
+        _id: 3,
         name: 'Blowout',
         category: 'Style',
-        image: General_physician
+        image: style,
+        repeatEvery: 'On a Special Occasion',
     },
     {
+        _id: 4,
         name: 'Full Color',
         category: 'Color',
-        image: General_physician
+        image: color,
+        repeatEvery: 'Every 3 Months',
     },
     {
-        name: 'Root Touch Up',
-        category: 'Color',
-        image: General_physician
-    },
-    {
-        name: 'Partial Highlights',
-        category: 'Color',
-        image: General_physician
-    },
-    {
-        name: 'Full Highlights',
-        category: 'Color',
-        image: General_physician
-    },
-    {
+        _id: 5,
         name: 'Straightning',
         category: 'Style',
-        image: General_physician
-    },
-    {
-        name: 'Extension',
-        category: 'Style',
-        image: General_physician
+        image: style,
+        repeatEvery: 'Once a Year',
     },
     
+    {
+        _id: 6,
+        name: 'Partial Highlights',
+        category: 'Color',
+        image: color,
+        repeatEvery: 'Every 3 Months',
+    },
+    {
+        _id: 7,
+        name: 'Full Highlights',
+        category: 'Color',
+        image: color,
+        repeatEvery: 'Every 3 Months',
+    },
+    {
+        _id: 8,
+        name: 'Root Touch Up',
+        category: 'Color',
+        image: color,
+        repeatEvery: 'Every 6 Weeks',
+    },
+    {
+        _id: 9,
+        name: 'Extension',
+        category: 'Style',
+        image: style,
+        repeatEvery: 'Every 2.5 Months',
+    },
+]
+
+export const popularServices = [
+    {
+        _id: 1,
+    },
+    {
+        _id: 4,
+    },
+    {
+        _id: 7,
+    },
+    {
+        _id: 5,
+    },
+    {
+        _id: 9,
+    },
 ]
 
 export const doctors = [
