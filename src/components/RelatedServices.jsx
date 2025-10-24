@@ -1,27 +1,34 @@
-import React, { useContext } from 'react'
-import { useNavigate } from 'react-router-dom'
+import React, { useContext, useEffect, useState } from 'react'
 import { AppContext } from '../context/AppContext'
+import { useNavigate } from 'react-router-dom';
 import { getIndicatorAndTextColor } from '../utils/utils';
 
-const PopularServices = () => {
+const RelatedServices = ({ serviceID, category }) => {
+
+    const { servicesData } = useContext(AppContext)
+    const [relatedService, setRelatedService] = useState([]);
 
     const navigate = useNavigate();
 
-    const { servicesData, popularServices } = useContext(AppContext)
+    useEffect(() => {
+        if (servicesData.length > 0 && category) {
+            setRelatedService(
+                servicesData.filter((service) =>
+                    service.category === category && service._id !== serviceID
+                )
+            )
+        }
+    }, [servicesData, serviceID, category])
 
     return (
         <div className='flex flex-col items-center gap-4 my-16 text-gray-900 md:mx-10'>
-            <h1 className='text-3xl font-medium'>Most Popular Services</h1>
-            <p className='text-center text-sm md:text-lg'>Need Some Inspiration? These are the services everyone is getting !</p>
+            <h1 className='text-3xl font-medium'>Other Services You Might Like</h1>
             <div className='w-full grid grid-cols-auto gap-6 pt-5 gap-y-6 px-3 sm:px-0'>
-                {/* Finding the popular services using popularServices array that contains the id's of the servicesData */}
-                {servicesData.filter(service => popularServices
-                    .find(popular => popular._id === service._id))
-                    .map((item, index) => {
+                {relatedService.map((item, index) => {
                         const colors = getIndicatorAndTextColor(item.category);
                         return (
                             <div onClick={() => { navigate(`/appointment/${item._id}`); scrollTo(0, 0) }} className='border border-blue-200 rounded-xl overflow-hidden cursor-pointer
-                                    hover:translate-y-[-10px] transition-all duration-500' key={index}>
+                                            hover:translate-y-[-10px] transition-all duration-500' key={index}>
                                 <img className='bg-blue-50 w-90' src={item.image} alt="" />
                                 <div className='p-4'>
                                     <div className='flex items-center gap-2 text-sm text-center'>
@@ -41,4 +48,4 @@ const PopularServices = () => {
     )
 }
 
-export default PopularServices
+export default RelatedServices

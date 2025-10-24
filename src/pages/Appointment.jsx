@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { AppContext } from '../context/AppContext';
 import { assets } from '../assets/assets';
+import RelatedServices from '../components/RelatedServices';
 
 const Appointment = () => {
 
@@ -79,9 +80,9 @@ const Appointment = () => {
 
   }, [serviceInfo])
 
-  useEffect(() => {
-    console.log(serviceSlots)
-  }, [serviceSlots])
+  // useEffect(() => {
+  //   console.log(serviceSlots)
+  // }, [serviceSlots])
 
   return serviceInfo && (
     <div>
@@ -91,7 +92,7 @@ const Appointment = () => {
           <img className='bg-primary w-full sm:max-w-68 rounded-lg' src={serviceInfo.image} alt="" />
         </div>
         {/* ---- Service Info: Duration, Price,  */}
-        <div className='flex-1 border border-gray-400 rounded-lg p-8 py-7 bg-white mx-2 sm:mx-0 mt-[-80px] sm:mt-0'>
+        <div className='flex-1 border border-gray-400 rounded-lg p-8 py-7 bg-white mx-2 sm:mx-0 -mt-20 sm:mt-0'>
           {/* Title */}
           <p className='flex items-center gap-2 text-3xl font-medium text-gray-900'>
             {serviceInfo.name}
@@ -108,7 +109,7 @@ const Appointment = () => {
             <p className='text-xl font-medium text-gray-900'>
               About The Service
             </p>
-            <p className='max-w-4/5 text-gray-500'>{serviceInfo.description}</p>
+            <p className='max-w-4/5 text-gray-600'>{serviceInfo.description}</p>
           </div>
           {/* Price */}
           <div className='flex gap-3 mt-4 text-gray-500 text-sm'>
@@ -141,16 +142,18 @@ const Appointment = () => {
             serviceSlots.length && serviceSlots[slotIndex].map((serviceDateHours, index) => (
               <p onClick={() => setSlotTime(serviceDateHours.time)}
                 className={`text-sm font-light shrink-0 border rounded-2xl p-2 cursor-pointer
-                           ${serviceDateHours.time === slotTime ? 'bg-primary text-white' : 'text-gray-400 border-gray-300'}`} key={index}>
+                           ${serviceDateHours.time === slotTime ? 'bg-primary text-white' : 'text-gray-800 border-gray-300'}`} key={index}>
 
                 {serviceDateHours.time.toLowerCase()}
               </p>
             ))
           }
         </div>
-        
-        <button className='bg-primary text-white text-sm font-light px-14 py-3 rounded-full my-6'>Book an Appointment</button>
+
+        <button className='bg-primary text-white text-sm font-light px-14 py-3 rounded-full my-6 cursor-pointer'>Book an Appointment</button>
       </div>
+
+      <RelatedServices serviceID={serviceID} category={serviceInfo.category} />
     </div>
   )
 }
