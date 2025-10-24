@@ -4,11 +4,14 @@ import { servicesData, popularServices, serviceCategories } from "../assets/asse
 export const AppContext = createContext()
 
 const AppContextProvider = (props) => {
-    
+
+    const currencySymbol = '$'
+
     const value = {
         servicesData,
         popularServices,
-        serviceCategories
+        serviceCategories,
+        currencySymbol
     }
 
     return (
