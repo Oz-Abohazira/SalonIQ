@@ -4,13 +4,13 @@ import Home from './pages/Home'
 import Services from './pages/Services'
 import Login from './pages/Login'
 import About from './pages/About'
-import Contact from './pages/Contact'
 import MyProfile from './pages/MyProfile'
 import MyAppointments from './pages/MyAppointments'
 import Appointments from './pages/Appointment'
 import Appointment from './pages/Appointment'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
+import Banner from './components/Banner'
 
 
 
@@ -23,8 +23,7 @@ const App = () => {
         <Route path='/services' element={<Services />} />
         <Route path='/services/:type' element={<Services />} />
         <Route path='/login' element={<Login />} />
-        <Route path='/about' element={<About />} />
-        <Route path='/contact' element={<Contact />} />
+        <Route path='/about' element={<React.Fragment><About /><Banner ctaAppointment={true} /></React.Fragment>} />
         <Route path='/my-profile' element={<MyProfile />} />
         <Route path='/my-appointments' element={<MyAppointments />} />
         <Route path='/appointment/:serviceID' element={<Appointment />} />

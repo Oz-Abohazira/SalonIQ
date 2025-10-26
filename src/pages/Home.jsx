@@ -10,7 +10,7 @@ const Home = () => {
       <Hero />
       <ServiceMenu />
       <PopularServices />
-      <Banner />
+      <Banner showMargin={true} />
     </div>
   )
 }
