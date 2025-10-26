@@ -43,19 +43,26 @@ const Appointment = () => {
         // Setting end time (7pm) of the date with index 
         let endTime = new Date();
         endTime.setDate(today.getDate() + i);
-        endTime.setHours(19, 0, 0, 0);
+        endTime.setHours(18, 30, 0, 0);
 
         // Setting hours
         if (today.getDate() === currentDate.getDate()) {
           let currentHour = currentDate.getHours();
-          currentDate.setHours(currentHour >= 10 ? currentHour + 3 : 12)
+          currentDate.setHours(currentHour >= 11 ? currentHour + 3 : 11)
           currentDate.setMinutes(currentDate.getMinutes() > timeStep ? timeStep : 0);
         } else {
-          currentDate.setHours(10);
+          currentDate.setHours(11);
           currentDate.setMinutes(0);
         }
 
         let timeSlots = []
+
+        if (currentDate >= endTime) {
+          timeSlots.push({
+            dateTime: new Date(currentDate),
+            time: '',
+          })
+        }
 
         while (currentDate < endTime) {
           let formattedTime = currentDate.toLocaleTimeString([], {
@@ -72,6 +79,7 @@ const Appointment = () => {
           currentDate.setMinutes(currentDate.getMinutes() + timeStep)
         }
 
+        console.log(timeSlots)
         setServiceSlots(prev => ([...prev, timeSlots]))
       }
     }
@@ -139,14 +147,16 @@ const Appointment = () => {
         {/* Available Times */}
         <div className='flex items-center gap-3 w-full overflow-x-scroll mt-4'>
           {
-            serviceSlots.length && serviceSlots[slotIndex].map((serviceDateHours, index) => (
-              <p onClick={() => setSlotTime(serviceDateHours.time)}
-                className={`text-sm font-light shrink-0 border rounded-2xl p-2 cursor-pointer
+            serviceSlots[slotIndex][0].time === ''
+              ? <div>No Appointments Available, try selecting another day</div>
+              : serviceSlots.length && serviceSlots[slotIndex].map((serviceDateHours, index) => (
+                <p onClick={() => setSlotTime(serviceDateHours.time)}
+                  className={`text-sm font-light shrink-0 border rounded-2xl p-2 cursor-pointer
                            ${serviceDateHours.time === slotTime ? 'bg-primary text-white' : 'text-gray-800 border-gray-300'}`} key={index}>
 
-                {serviceDateHours.time.toLowerCase()}
-              </p>
-            ))
+                  {serviceDateHours.time.toLowerCase()}
+                </p>
+              ))
           }
         </div>
 
