@@ -9,6 +9,7 @@ const Services = () => {
   const { serviceCategories, servicesData } = useContext(AppContext);
 
   const [filterService, setFilterService] = useState([]);
+  const [showFilter, setShowFilter] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -27,7 +28,8 @@ const Services = () => {
     <div>
       <p className='text-gray-600 '>Categories</p>
       <div className='flex flex-col sm:flex-row items-start gap-5 mt-5'>
-        <div className='flex flex-col gap-3 text-sm text-gray-600'>
+        <button className={`${showFilter ? 'bg-primary text-white' : ''} py-1 px-3 border rounded text-sm transition-all sm:hidden`} onClick={() => setShowFilter(prev => !prev)}>Filter</button>
+        <div className={`${showFilter ? 'flex' : 'hidden sm:flex'}  flex-col gap-3 text-sm text-gray-600`}>
           {serviceCategories.map((item, index) => (
             <p className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-300 rounded transition-all cursor-pointer
                            ${categoryName.type === item.name.toLowerCase() ? "bg-indigo-100 text-black" : ""}`}
@@ -40,7 +42,7 @@ const Services = () => {
             const colors = getIndicatorAndTextColor(item.category);
             return (
               <div onClick={() => { navigate(`/appointment/${item._id}`) }} className='border border-blue-200 rounded-xl overflow-hidden cursor-pointer
-                                              hover:translate-y-[-10px] transition-all duration-500' key={index}>
+                                              hover:translate-y-2.5 transition-all duration-500' key={index}>
                 <img className='bg-blue-50 w-90' src={item.image} alt="" />
                 <div className='p-4'>
                   <div className='flex items-center gap-2 text-sm text-center'>

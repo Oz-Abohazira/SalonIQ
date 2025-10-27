@@ -28,24 +28,40 @@ const Navbar = () => {
             </ul>
             <div className='flex items-center gap-4'>
                 {
-                    token 
-                    ? <div className='flex items-center gap-2 cursor-pointer group relative'>
-                        <img className='w-8 rounded-full' src={assets.profile_pic} alt="" />
-                        <img className='w-2.5' src={assets.dropdown_icon} alt="" />
-                        <div className='absolute top-0 right-0 pt-14 text-base font-medium text-gray-600 z-20 hidden group-hover:block'>
-                            <div className='min-w-44 bg-stone-100 rounded flex flex-col gap-4 p-4'>
-                                <p className='hover:text-black cursor-pointer' onClick={ () => navigate('/my-profile')}>My Profile</p>
-                                <p className='hover:text-black cursor-pointer' onClick={ () => navigate('/my-appointments')}>My Appointments</p>
-                                <p className='hover:text-black cursor-pointer' onClick={ () => setToken(false)}>Logout</p>
+                    token
+                        ? <div className='flex items-center gap-2 cursor-pointer group relative'>
+                            <img className='w-8 rounded-full' src={assets.profile_pic} alt="" />
+                            <img className='w-2.5' src={assets.dropdown_icon} alt="" />
+                            <div className='absolute top-0 right-0 pt-14 text-base font-medium text-gray-600 z-20 hidden group-hover:block'>
+                                <div className='min-w-44 bg-stone-100 rounded flex flex-col gap-4 p-4'>
+                                    <p className='hover:text-black cursor-pointer' onClick={() => navigate('/my-profile')}>My Profile</p>
+                                    <p className='hover:text-black cursor-pointer' onClick={() => navigate('/my-appointments')}>My Appointments</p>
+                                    <p className='hover:text-black cursor-pointer' onClick={() => setToken(false)}>Logout</p>
+                                </div>
                             </div>
-                        </div>
 
-                      </div> 
-                    : <button className='bg-primary text-white px-6 py-3 rounded-full font-light hidden md:block cursor-pointer'
-                        onClick={() => navigate('/login')} >
+                        </div>
+                        : <button className='bg-primary text-white px-6 py-3 rounded-full font-light hidden md:block cursor-pointer'
+                            onClick={() => navigate('/login')} >
                             Create Account
-                      </button>
+                        </button>
                 }
+
+                <img onClick={() => setShowMenu(true)} className='w-6 md:hidden' src={assets.menu_icon} alt="" />
+                {/* ---- Mobile Menu ---- */}
+                <div className={`${showMenu ? 'fixed w-full' : 'h-0 w-0'} md:hidden right-0 top-0 bottom-0 z-20 overflow-hidden bg-white transition-all`}>
+                    <div className='flex items-center justify-between px-5 py-6'>
+                        <img className='w-10' src={assets.logo} alt="" />
+                        <img className='w-7' onClick={() => setShowMenu(false)} src={assets.cross_icon} alt="" />
+                    </div>
+                    <ul className='flex flex-col items-center gap-5 mt-5 px-5 text-lg font-medium'>
+                        <NavLink onClick={() => setShowMenu(false)} to='/'><p className='py-2 px-6 rounded'>Home</p></NavLink>
+                        <hr className='w-2/3' />
+                        <NavLink onClick={() => setShowMenu(false)} to='/services'><p className='py-2 px-6 rounded'>All Services</p></NavLink>
+                        <hr className='w-2/3 ' />
+                        <NavLink onClick={() => setShowMenu(false)} to='/about'><p className='py-2 px-6 rounded'>About</p></NavLink>
+                    </ul>
+                </div>
             </div>
         </div>
     )

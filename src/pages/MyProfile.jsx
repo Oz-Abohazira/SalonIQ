@@ -34,11 +34,11 @@ const MyProfile = () => {
       <div className='text-3xl font-medium mt-4'>
         {
           isEdit
-            ? <input className='w-md border' value={userData.name} onChange={(e) => setUserData(prev => ({ ...prev, name: e.target.value }))} type="text" />
+            ? <input className='w-full border' value={userData.name} onChange={(e) => setUserData(prev => ({ ...prev, name: e.target.value }))} type="text" />
             : <p>{userData.name}</p>
         }
       </div>
-      <hr className='w-md bg-zinc-400 h-px border-none' />
+      <hr className='w-full bg-zinc-400 h-px border-none' />
 
       <div>
         <p className={styles.subTitle}>Contact Information</p>

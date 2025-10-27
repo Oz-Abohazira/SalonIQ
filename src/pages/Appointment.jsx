@@ -79,7 +79,7 @@ const Appointment = () => {
           currentDate.setMinutes(currentDate.getMinutes() + timeStep)
         }
 
-        console.log(timeSlots)
+        // console.log(timeSlots)
         setServiceSlots(prev => ([...prev, timeSlots]))
       }
     }
