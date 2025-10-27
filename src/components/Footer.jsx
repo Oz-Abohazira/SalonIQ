@@ -1,9 +1,11 @@
 import React from 'react'
 import { assets } from '../assets/assets'
+import { useNavigate } from 'react-router-dom';
 
 const Footer = () => {
-
     const getYear = new Date().getFullYear();
+
+    const navigate = useNavigate();
 
     return (
         <div className='md: mx-10'>
@@ -17,11 +19,11 @@ const Footer = () => {
                 {/* ---- Center Section ---- */}
                 <div>
                     <h2 className='text-xl font-medium mb-5'>Quick Links</h2>
-                    <ul className='flex flex-col gap-2 text-gray-800'>
-                        <li>Home</li>
-                        <li>Services</li>
-                        <li>About Us</li>
-                        <li>Contact Us</li>
+                    <ul className='flex flex-col gap-2 text-gray-800 cursor-pointer'>
+                        <li onClick={() => { navigate('/'); scrollTo(0, 0); }} >Home</li>
+                        <li onClick={() => { navigate('/services'); scrollTo(0, 0); }}>Services</li>
+                        <li onClick={() => { navigate('/about'); scrollTo(0, 0); }}>About Us</li>
+                        {/* <li>Contact Us</li> */}
                     </ul>
                 </div>
 
@@ -38,7 +40,7 @@ const Footer = () => {
 
             {/* ---- Copyright Text ---- */}
             <div>
-                <hr className='text-gray-200'/>
+                <hr className='text-gray-200' />
                 <p className='p-5 text-sm text-center'>Copyright {getYear}@ SalonIQ - All Right Reserved.</p>
             </div>
         </div>
