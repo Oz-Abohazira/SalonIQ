@@ -88,8 +88,7 @@ You'll need to create `.env` files in specific directories. Here's what you need
 **Backend Environment (backend/.env)**
 ```env
 PORT=4000
-MONGODB_URI=mongodb://localhost:27017/saloniq
-# Or use MongoDB Atlas: mongodb+srv://username:password@cluster.mongodb.net/saloniq
+
 
 # Cloudinary credentials (sign up at cloudinary.com)
 CLOUDINARY_NAME=your_cloudinary_name
@@ -100,14 +99,16 @@ CLOUDINARY_API_SECRET=your_api_secret
 JWT_SECRET=your_super_secret_jwt_key
 
 # Admin credentials
-ADMIN_EMAIL=admin@saloniq.com
+ADMIN_EMAIL=your_admin_email
 ADMIN_PASSWORD=your_admin_password
 ```
 
 **Frontend Environment (frontend/.env)**
 ```env
 VITE_BACKEND_URL=http://localhost:4000
-# Get free token from locationiq.com
+
+# For now this feature is off so it is not needed
+# Get free token from locationiq.com - 
 VITE_LOCATIONIQ_TOKEN=your_locationiq_token
 ```
 
