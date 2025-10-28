@@ -1,0 +1,26 @@
+{
+  "name": "saloniq",
+  "version": "1.0.0",
+  "description": "Full-stack salon management system with client and admin interfaces",
+  "scripts": {
+    "install:all": "npm run install:frontend && npm run install:backend && npm run install:admin",
+    "install:frontend": "cd frontend && npm install",
+    "install:backend": "cd backend && npm install", 
+    "install:admin": "cd admin && npm install",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:admin": "cd admin && npm run dev",
+    "start:frontend": "cd frontend && npm start",
+    "start:backend": "cd backend && npm start",
+    "start:admin": "cd admin && npm start",
+    "build:frontend": "cd frontend && npm run build",
+    "build:admin": "cd admin && npm run build"
+  },
+  "keywords": ["salon", "booking", "management", "react", "nodejs", "mongodb", "express", "fullstack"],
+  "author": "Oz Abohazira",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Oz-Abohazira/SalonIQ.git"
+  }
+}
