@@ -226,11 +226,9 @@ If you find a bug, please open an issue with:
 - Screenshots if applicable
 
 ## 📄 License
-
 This project is licensed under the MIT License - feel free to use it for learning, personal projects, or even commercial applications. See the [LICENSE](LICENSE) file for details.
 
 ## 🙏 Acknowledgments
-
 Special thanks to:
 - The React team for creating such an amazing framework
 - The Express.js community for the robust web framework
