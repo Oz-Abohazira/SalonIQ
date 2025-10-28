@@ -88,12 +88,27 @@ You'll need to create `.env` files in specific directories. Here's what you need
 **Backend Environment (backend/.env)**
 ```env
 PORT=4000
+
+
+# Cloudinary credentials (sign up at cloudinary.com)
+CLOUDINARY_NAME=your_cloudinary_name
+CLOUDINARY_API_KEY=your_api_key
+CLOUDINARY_API_SECRET=your_api_secret
+
+# JWT Secret (use a random string)
+JWT_SECRET=your_super_secret_jwt_key
+
+# Admin credentials
+ADMIN_EMAIL=your_admin_email
+ADMIN_PASSWORD=your_admin_password
 ```
 
 **Frontend Environment (frontend/.env)**
 ```env
 VITE_BACKEND_URL=http://localhost:4000
-# Get free token from locationiq.com
+
+# For now this feature is off so it is not needed
+# Get free token from locationiq.com - 
 VITE_LOCATIONIQ_TOKEN=your_locationiq_token
 ```
 
@@ -211,11 +226,9 @@ If you find a bug, please open an issue with:
 - Screenshots if applicable
 
 ## 📄 License
-
 This project is licensed under the MIT License - feel free to use it for learning, personal projects, or even commercial applications. See the [LICENSE](LICENSE) file for details.
 
 ## 🙏 Acknowledgments
-
 Special thanks to:
 - The React team for creating such an amazing framework
 - The Express.js community for the robust web framework
@@ -228,9 +241,9 @@ Special thanks to:
 
 I'm always excited to discuss this project or potential opportunities:
 
-- **Portfolio**: [your-portfolio-website.com](https://your-portfolio-website.com)
+- **Portfolio**: [Go To Website](https://ozabohazira.dev)
 - **LinkedIn**: [linkedin.com/in/oz-abohazira](https://linkedin.com/in/oz-abohazira)
-- **Email**: [your.email@example.com](mailto:your.email@example.com)
+- **Email**: [ozabohaziradev@gmail.com](mailto:ozabohaziradev@gmail.com)
 
 ---
 
