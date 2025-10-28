@@ -243,9 +243,9 @@ Special thanks to:
 
 I'm always excited to discuss this project or potential opportunities:
 
-- **Portfolio**: [your-portfolio-website.com](https://your-portfolio-website.com)
+- **Portfolio**: [Go To Website](https://ozabohazira.dev)
 - **LinkedIn**: [linkedin.com/in/oz-abohazira](https://linkedin.com/in/oz-abohazira)
-- **Email**: [your.email@example.com](mailto:your.email@example.com)
+- **Email**: [ozabohaziradev@gmail.com](mailto:ozabohaziradev@gmail.com)
 
 ---
 
