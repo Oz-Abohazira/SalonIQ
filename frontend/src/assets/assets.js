@@ -17,6 +17,8 @@ import info_icon from "./info_icon.svg";
 import clock_icon from "./clock.png";
 import price_icon from "./price.png";
 import upload_icon from "./upload_icon.png";
+import email_icon from './email_icon.svg'
+import location_icon from './location_icon.svg'
 import stripe_logo from "./stripe_logo.png";
 import razorpay_logo from "./razorpay_logo.png";
 import haircut from "./haircut.png";
@@ -42,6 +44,8 @@ export const assets = {
   info_icon,
   clock_icon,
   price_icon,
+  email_icon,
+  location_icon,
   profile_pic,
   arrow_icon,
   contact_image,

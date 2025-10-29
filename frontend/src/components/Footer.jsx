@@ -30,9 +30,15 @@ const Footer = () => {
                 {/* ---- Right Section ---- */}
                 <div>
                     <h2 className='text-xl font-medium mb-5'>Get In Touch</h2>
-                    <ul className='flex flex-col gap-2 text-gray-800'>
-                        <li>347-238-8896 - Hannah</li>
-                        <li>Whatsapp / Message</li>
+                    <ul className='flex flex-col gap-3 text-gray-800'>
+                        <li className='flex gap-3'>
+                            <img className='w-6' src={assets.email_icon} alt="" />
+                            <p>hannahbarberbeauty@gmail.com</p>
+                        </li>
+                        <li className='flex gap-3'>
+                            <img className='w-6' src={assets.location_icon} alt="" />
+                            <p>Dunwoody, GA 30338</p>
+                        </li>
                     </ul>
                 </div>
 
