@@ -16,7 +16,7 @@ const PopularServices = () => {
             <div className='w-full grid grid-cols-auto gap-6 pt-5 gap-y-6 px-3 sm:px-0'>
                 {/* Finding the popular services using popularServices array that contains the id's of the servicesData */}
                 {servicesData.filter(service => popularServices
-                    .find(popular => popular._id === service._id))
+                    .find(popular => popular.name === service.name))
                     .map((item, index) => {
                         const colors = getIndicatorAndTextColor(item.category);
                         return (

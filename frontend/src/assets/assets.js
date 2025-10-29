@@ -186,16 +186,16 @@ export const servicesData = [
 
 export const popularServices = [
   {
-    _id: "1",
+    name: `Men's Haircut`,
   },
   {
-    _id: "7",
+    name: "Extension",
   },
   {
-    _id: "5",
+    name: "Full Highlights",
   },
   {
-    _id: "9",
+    name: "Straightening",
   },
 ];
 
