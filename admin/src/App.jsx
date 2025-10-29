@@ -16,18 +16,20 @@ const App = () => {
   const { aToken } = useContext(AdminContext)
 
   return aToken ? (
-    <div className='bg-[#F8F9FD]'>
+    <div className='bg-[#F8F9FD] flex flex-col h-screen'>
       <ToastContainer />
       <Navbar />
-      <div className='flex items-start'>
+      <div className='flex flex-1 overflow-auto'>
         <Sidebar />
-        <Routes>
-          <Route path='/' element={<></>} ></Route>
-          <Route path='/dashboard' element={<Dashboard />} ></Route>
-          <Route path='/all-appointments' element={<AllAppointments />} ></Route>
-          <Route path='/add-service' element={<AddService />} ></Route>
-          <Route path='/service-list' element={<ServiceList />} ></Route>
-        </Routes>
+        <div className='flex-1 overflow-auto'>
+          <Routes>
+            <Route path='/' element={<></>} ></Route>
+            <Route path='/dashboard' element={<Dashboard />} ></Route>
+            <Route path='/all-appointments' element={<AllAppointments />} ></Route>
+            <Route path='/add-service' element={<AddService />} ></Route>
+            <Route path='/service-list' element={<ServiceList />} ></Route>
+          </Routes>
+        </div>
       </div>
     </div>
   ) : (

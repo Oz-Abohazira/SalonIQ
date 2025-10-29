@@ -2,14 +2,12 @@ import validator from "validator";
 import bcrypt from "bcrypt";
 import { v2 as cloudinary } from "cloudinary";
 import serviceModel from "../models/serviceModel.js";
-import jwt from 'jsonwebtoken';
+import jwt from "jsonwebtoken";
 
 const addService = async (req, res) => {
   try {
     const requiredFields = [
       "name",
-      "email",
-      "password",
       "category",
       "repeatEvery",
       "duration",
@@ -22,6 +20,7 @@ const addService = async (req, res) => {
     console.log(requiredFields.filter((field) => req.body[field]));
 
     if (missingFields.length > 0) {
+      console.log(`Missing required fields: ${missingFields.join(", ")}`);
       return res.json({
         success: false,
         message: `Missing required fields: ${missingFields.join(", ")}`,
@@ -30,8 +29,6 @@ const addService = async (req, res) => {
 
     const {
       name,
-      email,
-      password,
       available,
       category,
       repeatEvery,
@@ -43,28 +40,28 @@ const addService = async (req, res) => {
 
     const imageFile = req.file;
 
-    // Validators
-    if (!validator.isEmail(email)) {
-      return res.json({
-        success: false,
-        message: "Please Enter a Valid Email",
-      });
-    }
+    // // Validators
+    // if (!validator.isEmail(email)) {
+    //   return res.json({
+    //     success: false,
+    //     message: "Please Enter a Valid Email",
+    //   });
+    // }
 
-    if (password.length < 6) {
-      return res.json({
-        success: false,
-        message: "Password length must exceed 6 characters",
-      });
-    }
+    // if (password.length < 6) {
+    //   return res.json({
+    //     success: false,
+    //     message: "Password length must exceed 6 characters",
+    //   });
+    // }
 
     if (!imageFile) {
       return res.json({ success: false, message: "Image file is required" });
     }
 
-    // Encrypting password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
+    // // Encrypting password
+    // const salt = await bcrypt.genSalt(10);
+    // const hashedPassword = await bcrypt.hash(password, salt);
 
     // upload image to cloudinary
     const imageUpload = await cloudinary.uploader.upload(imageFile.path, {
@@ -75,8 +72,8 @@ const addService = async (req, res) => {
     // save data to database
     const serviceData = {
       name,
-      email,
-      password: hashedPassword,
+      // email,
+      // password: hashedPassword,
       available,
       category,
       image: imageUrl,
@@ -85,7 +82,7 @@ const addService = async (req, res) => {
       durationInMinutes,
       price,
       description,
-      date: Date.now(),
+      dacreate_date: Date.now(),
     };
 
     const newService = new serviceModel(serviceData);
@@ -104,11 +101,14 @@ const loginAdmin = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    if (email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD) {
-        const token = jwt.sign(email+password, process.env.JWT_SECRET);
-        res.json({success: true, token});
+    if (
+      email === process.env.ADMIN_EMAIL &&
+      password === process.env.ADMIN_PASSWORD
+    ) {
+      const token = jwt.sign(email + password, process.env.JWT_SECRET);
+      res.json({ success: true, token });
     } else {
-        res.json({success:false, message: "Email or password is incorrect"});
+      res.json({ success: false, message: "Email or password is incorrect" });
     }
   } catch (error) {
     console.log(error);
@@ -116,4 +116,16 @@ const loginAdmin = async (req, res) => {
   }
 };
 
-export { addService, loginAdmin };
+const getAllDoctors = async (req, res) => {
+  try {
+    // Example on how to remove a field from response
+    // const services = await serviceModel.find({}).select('-password')
+    const services = await serviceModel.find({});
+    res.json({ success: true, services });
+  } catch (error) {
+    console.error(error);
+    res.json({ success: false, message: error.message });
+  }
+};
+
+export { addService, loginAdmin, getAllDoctors };

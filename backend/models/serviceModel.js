@@ -2,9 +2,7 @@ import mongoose from "mongoose";
 
 const serviceSchema = new mongoose.Schema(
   {
-    name: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
+    name: { type: String, required: true, unique: true },
     image: { type: String, required: true },
     category: { type: String, required: true },
     available: { type: Boolean, default: true },
@@ -13,7 +11,7 @@ const serviceSchema = new mongoose.Schema(
     durationInMinutes: { type: Number, required: true },
     price: { type: String, required: true },
     description: { type: String, required: true },
-    date: { type: Number },
+    create_date: { type: Number },
     slotsBooked: { type: Object, default: {} },
   },
   { minimize: false }

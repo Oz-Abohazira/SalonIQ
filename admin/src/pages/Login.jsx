@@ -12,14 +12,14 @@ const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const { setAToken, backendUrl, basePath } = useContext(AdminContext);
+    const { setAToken, backendUrl, baseAdminPath } = useContext(AdminContext);
 
     const onSubmitHandler = async (event) => {
         event.preventDefault();
 
         try {
             // Call Login API
-            const fullLoginPath = backendUrl + basePath + '/login';
+            const fullLoginPath = backendUrl + baseAdminPath + '/login';
             const { data } = await axios.post(fullLoginPath, { email, password })
 
             if (data.success) {
