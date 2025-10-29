@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { AdminContext } from '../context/AdminContext'
 import { assets } from '../assets/assets'
 import { NavLink } from 'react-router-dom'
@@ -28,21 +28,32 @@ const Sidebar = () => {
         },
     ]
 
-    const { aToken } = useContext(AdminContext)
+    const { aToken } = useContext(AdminContext);
+    const [sideBarOpen, setSideBarOpen] = useState(true);
 
     return (
-        <div className='min-h-screen bg-white border-r border-gray-200'>
+        <div className={`min-h-screen bg-white border-r border-gray-200 transition-all duration-300 ease-in-out
+                      ${!sideBarOpen ? 'w-25' : 'w-68'}`
+        }>
             {
                 aToken &&
-                <ul className='text-[#515151] mt-5'>
-                    {sideBarMenuItems.map((item, index) => (
-                        <NavLink className={({isActive}) => `flex items-center gap-3 py-3.5 px-3 md:px-9 md:min-w-72 cursor-pointer 
-                                ${isActive ? 'bg-[#F2F3FF] border-r-4 border-primary' : ''}`} key={index} to={item.path}>
-                            <img src={item.icon} alt="" />
-                            <p>{item.text}</p>
-                        </NavLink>
-                    ))}
-                </ul>
+                <div className={`flex flex-col ${!sideBarOpen ? 'max-w-25 ' : ''}`}>
+                    <p onClick={() => setSideBarOpen(!sideBarOpen)}
+                        className={`text-primary text-5xl ml-auto px-4 pb-2 cursor-pointer transition-transform duration-300 ease-in-out hover:scale-110
+                                  ${sideBarOpen ? '' : 'mx-auto'}`}>
+                        {sideBarOpen ? '<' : '>'}
+                    </p>
+                    <ul className='text-[#515151]'>
+                        {sideBarMenuItems.map((item, index) => (
+                            <NavLink className={({ isActive }) => `flex items-center gap-3 py-3.5 px-3 md:px-9 cursor-pointer
+                                ${sideBarOpen ? 'md:min-w-68' : 'md:min-w-full'}
+                                ${isActive && 'bg-[#F2F3FF] border-r-4 border-primary font-medium'}`} key={index} to={item.path}>
+                                <img src={item.icon} alt="" />
+                                {sideBarOpen && <p>{item.text}</p>}
+                            </NavLink>
+                        ))}
+                    </ul>
+                </div>
             }
         </div>
     )

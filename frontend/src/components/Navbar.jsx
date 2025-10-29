@@ -7,7 +7,7 @@ const Navbar = () => {
     const navigate = useNavigate();
 
     const [showMenu, setShowMenu] = useState('');
-    const [token, setToken] = useState(true);
+    const [token, setToken] = useState(false);
     const [showDropdown, setShowDropdown] = useState(false);
 
     const hrStyle = 'border-none outline-none h-0.5 bg-primary w-3/5 m-auto hidden';

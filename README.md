@@ -89,6 +89,8 @@ You'll need to create `.env` files in specific directories. Here's what you need
 ```env
 PORT=4000
 
+# MongoDB credentials
+MODGODB_URI=your_mongo_uri
 
 # Cloudinary credentials (sign up at cloudinary.com)
 CLOUDINARY_NAME=your_cloudinary_name
@@ -115,6 +117,7 @@ VITE_LOCATIONIQ_TOKEN=your_locationiq_token
 **Admin Environment (admin/.env)**
 ```env
 VITE_BACKEND_URL=http://localhost:4000
+VITE_ADMIN_BASE_PATH = '/api/admin'
 ```
 
 ### Running the Development Environment
