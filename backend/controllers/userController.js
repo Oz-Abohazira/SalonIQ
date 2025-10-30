@@ -73,7 +73,7 @@ const loginUser = async (req, res) => {
 
     if (isMatch) {
       const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
-      return res.json({ success: true, token });
+      return res.json({ success: true, token, name: user.name });
     } else {
       return res.json({
         success: false,
@@ -81,9 +81,25 @@ const loginUser = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return res.json({ success: false, message: error.message });
   }
 };
 
-export { registerUser, loginUser };
+// API for user Data
+const getUserData = async (req, res) => {
+  try {
+    console.log('getUserData', req.body);
+
+    const { userID } = req.body;
+
+    const userData = await userModel.findById(userID).select("-password");
+    return res.json({ success: true, userData });
+
+  } catch (error) {
+    console.error(error);
+    return res.json({ success: false, message: error.message });
+  }
+};
+
+export { registerUser, loginUser, getUserData };

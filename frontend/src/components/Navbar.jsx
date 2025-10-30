@@ -1,16 +1,14 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { assets } from '../assets/assets'
 import { NavLink, useNavigate } from 'react-router-dom'
+import { AppContext } from '../context/AppContext';
 
 const Navbar = () => {
 
     const navigate = useNavigate();
 
-    const [showMenu, setShowMenu] = useState('');
-    const [token, setToken] = useState(false);
+    const [showMenu, setShowMenu] = useState(false);
     const [showDropdown, setShowDropdown] = useState(false);
-
-    const hrStyle = 'border-none outline-none h-0.5 bg-primary w-3/5 m-auto hidden';
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -23,6 +21,16 @@ const Navbar = () => {
         return () => document.removeEventListener('click', handleClickOutside);
 
     }, [showDropdown])
+
+    const hrStyle = 'border-none outline-none h-0.5 bg-primary w-3/5 m-auto hidden';
+
+    const { token, setToken } = useContext(AppContext);
+
+    const logout = () => {
+        setToken(false);
+        localStorage.removeItem('token');
+        navigate('/');
+    }
 
     return (
         <div className='flex items-center justify-between text-sm py-4 mb-5 border-b border-b-gray-400'>
@@ -51,7 +59,7 @@ const Navbar = () => {
                                 <div className='min-w-44 bg-stone-100 rounded flex flex-col gap-4 p-4'>
                                     <p className='hover:text-black cursor-pointer' onClick={() => navigate('/my-profile')}>My Profile</p>
                                     <p className='hover:text-black cursor-pointer' onClick={() => navigate('/my-appointments')}>My Appointments</p>
-                                    <p className='hover:text-black cursor-pointer' onClick={() => setToken(false)}>Logout</p>
+                                    <p className='hover:text-black cursor-pointer' onClick={() => { logout(); }}>Logout</p>
                                 </div>
                             </div>
 
