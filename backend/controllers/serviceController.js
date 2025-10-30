@@ -26,10 +26,11 @@ const getServiceList = async (req, res) => {
     const services = await serviceModel
       .find({})
       .select(["-date", "-create_date"]);
+      
     res.json({ success: true, services });
   } catch (error) {
     console.log(error);
-    res.json({ success: false, message: error.message });
+    return res.json({ success: false, message: error.message });
   }
 };
 

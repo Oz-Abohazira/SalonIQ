@@ -10,6 +10,7 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
 
   const onSubmit = async (event) => {
     event.prevantDefault()
@@ -23,10 +24,17 @@ const Login = () => {
         <p>{state === signUpState ? "Enjoy Member Benefits for free!" : "Log in to your account"}</p>
         {
           state === signUpState &&
-            <div className='w-full'>
-              <p>Full Name</p>
-              <input className='border border-zinc-300 rounded w-full p-2 mt-1' type="text" required onChange={(e) => setName(e.target.value)} value={name} />
-            </div>
+          <div className='w-full'>
+            <p>Full Name</p>
+            <input className='border border-zinc-300 rounded w-full p-2 mt-1' type="text" required onChange={(e) => setName(e.target.value)} value={name} />
+          </div>
+        }
+        {
+          state === signUpState &&
+          <div className='w-full'>
+            <p>Phone Number</p>
+            <input className='border border-zinc-300 rounded w-full p-2 mt-1' type="text" required onChange={(e) => setPhone(e.target.value)} value={phone} />
+          </div>
         }
         <div className='w-full'>
           <p>Email</p>
