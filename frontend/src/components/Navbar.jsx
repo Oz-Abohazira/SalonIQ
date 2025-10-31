@@ -24,7 +24,7 @@ const Navbar = () => {
 
     const hrStyle = 'border-none outline-none h-0.5 bg-primary w-3/5 m-auto hidden';
 
-    const { token, setToken } = useContext(AppContext);
+    const { token, setToken, userData } = useContext(AppContext);
 
     const logout = () => {
         setToken(false);
@@ -53,7 +53,7 @@ const Navbar = () => {
                 {
                     token
                         ? <div className='flex items-center gap-2 cursor-pointer group relative'>
-                            <img onClick={() => setShowDropdown(!showDropdown)} className='w-8 rounded-full' src={assets.profile_pic} alt="" />
+                            <img onClick={() => setShowDropdown(!showDropdown)} className='w-8 rounded-full' src={userData.image ? userData.image : assets.upload_area} alt="" />
                             <img onClick={() => setShowDropdown(!showDropdown)} className='w-2.5' src={assets.dropdown_icon} alt="" />
                             <div className={`absolute top-0 right-0 pt-14 text-base font-medium text-gray-600 z-20 ${showDropdown ? 'block' : 'hidden'} group-hover:block`}>
                                 <div className='min-w-44 bg-stone-100 rounded flex flex-col gap-4 p-4'>

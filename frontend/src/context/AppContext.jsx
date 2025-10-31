@@ -9,6 +9,7 @@ const AppContextProvider = (props) => {
 
     const [servicesData, setServicesData] = useState([]);
     const [token, setToken] = useState(localStorage.getItem('token') || '');
+    const [userData, setUserData] = useState(false);
 
     const currencySymbol = '$'
 
@@ -33,6 +34,29 @@ const AppContextProvider = (props) => {
         getAllServices()
     }, [])
 
+    const loadUserProfile = async () => {
+        try {
+            const { data } = await axios.get(backendUrl + baseUserUrl + '/get-data', { headers: { token } });
+
+            if (data.success) {
+                setUserData(data.userData);
+            } else {
+                toast.error(data.message);
+            }
+
+        } catch (error) {
+            toast.error(error.message);
+        }
+    }
+
+    useEffect(() => {
+        if (token) {
+            loadUserProfile();
+        } else {
+            setUserData(false)
+        }
+    }, [token])
+
     const value = {
         servicesData,
         popularServices,
@@ -40,8 +64,11 @@ const AppContextProvider = (props) => {
         currencySymbol,
         token,
         setToken,
+        userData,
+        setUserData,
         backendUrl,
         baseUserUrl,
+        loadUserProfile,
     }
 
     return (
