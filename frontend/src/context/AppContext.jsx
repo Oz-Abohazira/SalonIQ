@@ -17,7 +17,7 @@ const AppContextProvider = (props) => {
     const baseServiceUrl = import.meta.env.VITE_SERVICE_BASE_PATH;
     const baseUserUrl = import.meta.env.VITE_USER_BASE_PATH;
 
-    const getAllServices = async () => {
+    const loadAllServices = async () => {
         try {
             const { data } = await axios.get(backendUrl + baseServiceUrl + '/list');
 
@@ -31,7 +31,7 @@ const AppContextProvider = (props) => {
     }
 
     useEffect(() => {
-        getAllServices()
+        loadAllServices()
     }, [])
 
     const loadUserProfile = async () => {
@@ -69,6 +69,7 @@ const AppContextProvider = (props) => {
         backendUrl,
         baseUserUrl,
         loadUserProfile,
+        loadAllServices,
     }
 
     return (

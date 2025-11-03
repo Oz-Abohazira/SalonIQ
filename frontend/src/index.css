@@ -5,6 +5,11 @@
     font-family: Outfit;
 }
 
+.Toastify__toast,
+.Toastify__toast-body {
+  font-family: inherit !important;
+}
+
 @theme {
     --color-primary: #5f6FFF;
 
