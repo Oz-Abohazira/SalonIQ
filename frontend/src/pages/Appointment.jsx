@@ -114,7 +114,7 @@ const Appointment = () => {
       if (data.success) {
         toast.success(data.message);
         loadAllServices();
-        // navigate('/my-appointments');
+        navigate('/my-appointments');
       } else {
         toast.error(data.message);
       }
@@ -165,6 +165,8 @@ const Appointment = () => {
     try {
       // Call available times API
       const { data } = await axios.post(backendUrl + baseUserUrl + '/time-available', { slotDate, dayTimes }, { headers: { token } });
+
+      console.log(data.availableTimes)
 
       if (data.success) {
         setTimeSlots([...data.availableTimes]); // spread to force a new array reference

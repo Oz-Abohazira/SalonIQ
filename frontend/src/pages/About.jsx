@@ -59,7 +59,7 @@ const About = () => {
       <div className='flex flex-col md:flex-row gap-5 mb-20'>
         {
           chooseData.map((item, index) => (
-            <div className='border border-gray-300 px-10 md:px-16 py-8 sm:py16 flex flex-col gap-5 text-[15px] flex-1'>
+            <div key={index} className='border border-gray-300 px-10 md:px-16 py-8 sm:py16 flex flex-col gap-5 text-[15px] flex-1'>
               <b className='text-lg'>{item.subTitle}</b>
               <p>{item.Text}</p>
             </div>

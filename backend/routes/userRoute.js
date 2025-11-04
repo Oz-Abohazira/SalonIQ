@@ -6,6 +6,7 @@ import {
   updateUserData,
   bookAppointment,
   getAvailableTimes,
+  getUserAppointments,
 } from "../controllers/userController.js";
 import { authenticateUser } from "../middlewares/authUser.js";
 import upload from "../middlewares/multar.js";
@@ -13,6 +14,7 @@ import upload from "../middlewares/multar.js";
 const userRouter = express.Router();
 
 userRouter.get("/get-data", authenticateUser, getUserData);
+userRouter.get("/get-appointments", authenticateUser, getUserAppointments);
 
 userRouter.post("/time-available", getAvailableTimes);
 userRouter.post("/register", registerUser);

@@ -151,17 +151,21 @@ const getAvailableTimes = async (req, res) => {
         for (const bookedSlot of slotsBooked[slotDate]) {
           const { startTime, endTime } = bookedSlot;
 
-          availableTimes = availableTimes.map((slot) => {
-            const slotStart = slot.time;
-            const slotEnd = slot.time;
+          availableTimes = availableTimes.map((item) => {
+            if (item.available) {
+              const slotStart = item.time;
 
-            const available = isTimeAvailable(
-              slotStart,
-              slotEnd,
-              startTime,
-              endTime
-            ) && slotStart !== startTime;
-            return { ...slot, available };
+              const available = isTimeAvailable(
+                slotStart,
+                "",
+                startTime,
+                endTime
+              );
+
+              return { ...item, available };
+            } else {
+              return { ...item };
+            }
           });
         }
       }
@@ -172,19 +176,6 @@ const getAvailableTimes = async (req, res) => {
     console.error(error);
     return res.json({ success: false, message: error.message });
   }
-};
-
-const isTimeAvailable = (slotStart, slotEnd, startTime, endTime) => {
-  let convStart = convertToDecValue(slotStart);
-  let convEnd = convertToDecValue(slotEnd);
-  let convBookedStart = convertToDecValue(startTime);
-  let convBookedEnd = convertToDecValue(endTime);
-
-  return !(
-    (convStart > convBookedStart && convStart < convBookedEnd) ||
-    (convEnd > convBookedStart && convEnd < convBookedEnd) ||
-    (convStart <= convBookedStart && convEnd >= convBookedEnd)
-  );
 };
 
 // API to book appointment
@@ -212,18 +203,19 @@ const bookAppointment = async (req, res) => {
 
       if (slotsBooked[slotDate]) {
         for (const bookedSlot of slotsBooked[slotDate]) {
-          return (
-            res.json({
-              success: false,
-              message: "Time is already booked, try another",
-            }) &&
-            isTimeAvailable(
+          if (
+            !isTimeAvailable(
               slotStart,
               slotEnd,
               bookedSlot.startTime,
               bookedSlot.endTime
             )
-          );
+          ) {
+            return res.json({
+              success: false,
+              message: "Time is already booked, try another",
+            });
+          }
         }
       }
     }
@@ -268,6 +260,36 @@ const bookAppointment = async (req, res) => {
   }
 };
 
+// API to get user appointments
+const getUserAppointments = async (req, res) => {
+  try {
+    const userID = req.userID;
+    const appointments = await appointmentModel.find({ userID });
+
+    res.json({ success: true, appointments });
+  } catch (error) {
+    console.error(error);
+    return res.json({ success: false, message: error.message });
+  }
+};
+
+const isTimeAvailable = (slotStart, slotEnd, startTime, endTime) => {
+  let convStart = convertToDecValue(slotStart);
+
+  if (slotEnd === "") {
+    slotEnd = slotStart;
+  }
+  let convEnd = convertToDecValue(slotEnd);
+
+  let convBookedStart = convertToDecValue(startTime);
+  let convBookedEnd = convertToDecValue(endTime);
+
+  return (
+    !(convStart >= convBookedStart && convStart <= convBookedEnd) ||
+    (convEnd <= convBookedStart && convEnd >= convBookedEnd)
+  );
+};
+
 const convertToDecValue = (timeInHHMMPM) => {
   let hourVal = timeInHHMMPM.split(":")[0];
   let minVal = timeInHHMMPM.split(":")[1];
@@ -287,4 +309,5 @@ export {
   updateUserData,
   bookAppointment,
   getAvailableTimes,
+  getUserAppointments,
 };
