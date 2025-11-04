@@ -16,7 +16,7 @@ const Appointment = () => {
   const [serviceInfo, setServiceInfo] = useState(null);
   const [serviceSlots, setServiceSlots] = useState([]);
   const [timeSlots, setTimeSlots] = useState([]);
-  const [slotIndex, setSlotIndex] = useState(0);
+  const [slotIndex, setSlotIndex] = useState('');
   const [slotStart, setSlotStart] = useState('');
   const [slotEnd, setSlotEnd] = useState('');
 
@@ -58,10 +58,10 @@ const Appointment = () => {
         currentDate.setMinutes(0);
       }
 
-      let timeSlots = []
+      let times = []
 
       if (currentDate >= endTime) {
-        timeSlots.push({
+        times.push({
           dateTime: new Date(currentDate),
           time: '',
         })
@@ -74,7 +74,7 @@ const Appointment = () => {
         });
 
         // Add slot to array
-        timeSlots.push({
+        times.push({
           dateTime: new Date(currentDate),
           time: formattedTime
         })
@@ -83,7 +83,7 @@ const Appointment = () => {
         currentDate.setMinutes(currentDate.getMinutes() + timeStep)
       }
 
-      setServiceSlots(prev => ([...prev, timeSlots]))
+      setServiceSlots(prev => ([...prev, times]))
     }
   }
 
@@ -153,7 +153,6 @@ const Appointment = () => {
   const handleOnDateClick = async (index) => {
     setSlotIndex(index);
     setSlotStart('');
-    setTimeSlots([]);
 
     const selectedDate = serviceSlots[index][0].dateTime;
     const dayTimes = serviceSlots[index];
@@ -168,15 +167,13 @@ const Appointment = () => {
       const { data } = await axios.post(backendUrl + baseUserUrl + '/time-available', { slotDate, dayTimes }, { headers: { token } });
 
       if (data.success) {
-        setTimeSlots(data.availableTimes || []);
+        setTimeSlots([...data.availableTimes]); // spread to force a new array reference
       } else {
         toast.error(data.message);
       }
     } catch (error) {
       console.log(error.message);
       toast.error(error.message);
-    } finally {
-      console.log(timeSlots)
     }
   }
 
@@ -223,7 +220,7 @@ const Appointment = () => {
         <div className='flex gap-5 w-full overflow-x-scroll mt-4'>
           {
             serviceSlots.length && serviceSlots.map((serviceDateTime, index) => (
-              <div onClick={() => { handleOnDateClick(index) }} key={index}
+              <div onClick={() => handleOnDateClick(index)} key={index}
                 className={`text-center py-3 min-w-14 rounded-full cursor-pointer 
                          ${slotIndex === index ? 'bg-primary text-white' : 'border border-gray-300'}`}>
                 <p>{serviceDateTime[0] && daysOfWeek[serviceDateTime[0].dateTime.getDay()]}</p>
@@ -235,15 +232,18 @@ const Appointment = () => {
         {/* Available Times */}
         <div className='flex items-center gap-3 w-full overflow-x-scroll mt-4'>
           {
-            timeSlots.length === 0
-              ? <div>No Appointments Available, try selecting another day</div>
-              : timeSlots.length && timeSlots.map((item, index) => (                
-                <p onClick={() => slotClickAndCalcEndTime(item.time)}
-                  className={`text-sm font-light shrink-0 border rounded-2xl p-2 cursor-pointer
-                           ${item.time === slotStart ? 'bg-primary text-white' : 'text-gray-800 border-gray-300'}`} key={index}>
-                  {item.time.toLowerCase()}
-                </p>
-              ))
+            timeSlots.length === 0 && slotIndex === '' ?
+              <div>Please select a Date</div>
+              : timeSlots.length === 0 ?
+                <div>No Appointments Available, try selecting another day</div>
+                : timeSlots.length && timeSlots.map((item, index) => (
+                  <p onClick={() => slotClickAndCalcEndTime(item.time)}
+                    className={`text-sm font-light shrink-0 border rounded-2xl p-2 cursor-pointer
+                           ${!item.available ? 'bg-red-200 text-white ' : ''}
+                           ${item.available && item.time === slotStart ? 'bg-primary text-white' : 'text-gray-800 border-gray-300'}`} key={index}>
+                    {item.time.toLowerCase()}
+                  </p>
+                ))
             // serviceSlots[slotIndex][0].time === ''
             //   ? <div>No Appointments Available, try selecting another day</div>
             //   : serviceSlots.length && serviceSlots[slotIndex].map((serviceDateHours, index) => (
