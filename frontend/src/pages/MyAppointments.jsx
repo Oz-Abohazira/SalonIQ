@@ -137,13 +137,13 @@ const MyAppointments = () => {
             <div></div>
             <div className='flex flex-col gap-4 justify-center'>
               {
-                !item.is_canceled && !item.is_payed &&
+                !item.is_canceled && !item.is_paid &&
                 <button onClick={() => { collectPayment(item._id) }} className={`${buttonStyle} hover:bg-primary `}>Pay Online</button>
 
               }
               {
-                !item.is_canceled && item.is_payed &&
-                <button className={`${buttonStyle} hover:bg-stone-100 hover:text-primary! cursor-auto! `}>Payed</button>
+                !item.is_canceled && item.is_paid &&
+                <button className={`${buttonStyle} bg-neutral-200 text-primary! cursor-auto! `}>Paid</button>
 
               }
               {

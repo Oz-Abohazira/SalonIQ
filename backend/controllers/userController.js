@@ -355,7 +355,7 @@ const verifyPaymentRazorpay = async (req, res) => {
     if (orderInfo.status === "paid") {
       // Update appointment to paid
       await appointmentModel.findByIdAndUpdate(orderInfo.receipt, {
-        is_payed: true,
+        is_paid: true,
       });
 
       return res.json({ success: true, message: "Payment Successful" });
