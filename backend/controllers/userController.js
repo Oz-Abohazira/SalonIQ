@@ -5,6 +5,7 @@ import serviceModel from "../models/serviceModel.js";
 import jwt from "jsonwebtoken";
 import { v2 as cloudinary } from "cloudinary";
 import appointmentModel from "../models/appointmentModel.js";
+import razorpay from "razorpay";
 
 // API to register user
 const registerUser = async (req, res) => {
@@ -273,6 +274,102 @@ const getUserAppointments = async (req, res) => {
   }
 };
 
+// API to cancel appointments
+const cancelAppointment = async (req, res) => {
+  try {
+    const userID = req.userID;
+    const { appointmentID } = req.body;
+
+    const appointmentData = await appointmentModel.findById(appointmentID);
+
+    // Verify appointment user
+    if (userID !== appointmentData.userID)
+      return res.json({ success: false, message: "Unauthorized Action" });
+
+    await appointmentModel.findByIdAndUpdate(appointmentID, {
+      is_canceled: true,
+    });
+
+    // Removing booked time from the service object
+    const { serviceID, slotDate, slotStart, slotEnd } = appointmentData;
+    const serviceData = await serviceModel.findById(serviceID);
+
+    let slotsBooked = serviceData.slotsBooked;
+
+    slotsBooked[slotDate] = slotsBooked[slotDate].filter(
+      (item) => item.startTime !== slotStart && item.endTime !== slotEnd
+    );
+
+    await serviceModel.findByIdAndUpdate(serviceID, { slotsBooked });
+
+    return res.json({ success: true, message: "Appointment Cancelled" });
+  } catch (error) {
+    console.log(error.message);
+    return res.json({ success: false, message: error.message });
+  }
+};
+
+const razorpayInstance = new razorpay({
+  key_id: process.env.RAZORPAY_KEY_ID,
+  key_secret: process.env.ROZORPAY_KEY_SECRET,
+});
+// API for online payment using razorpay
+const paymentRazorpay = async (req, res) => {
+  try {
+    const { appointmentID } = req.body;
+    const appointmentData = await appointmentModel.findById(appointmentID);
+
+    if (!appointmentData || appointmentData.is_canceled)
+      return res.json({
+        success: false,
+        message: "Appointment Canceled or Not Found",
+      });
+
+    // Creating options for razorpay payment
+    const options = {
+      amount: appointmentData.price * 100,
+      currency: "USD",
+      receipt: appointmentID,
+    };
+
+    // Create order
+    const order = await razorpayInstance.orders.create(options);
+
+    return res.json({ success: true, order });
+  } catch (error) {
+    console.log(error.message);
+    return res.json({ success: false, message: error });
+  }
+};
+
+// API to verify payment
+const verifyPaymentRazorpay = async (req, res) => {
+  try {
+    const { razorpay_order_id } = req.body;
+
+    console.log(req.body.razorpay_order_id);
+    
+
+    const orderInfo = await razorpayInstance.orders.fetch(razorpay_order_id);
+
+    if (orderInfo.status === "paid") {
+      // Update appointment to paid
+      await appointmentModel.findByIdAndUpdate(orderInfo.receipt, {
+        is_payed: true,
+      });
+
+      return res.json({ success: true, message: "Payment Successful" });
+    } else {
+      return res.json({ success: false, message: "Payment Failed" });
+    }
+  } catch (error) {
+    console.log(error.message);
+    return res.json({ success: false, message: error });
+  }
+};
+
+// ---- Helper Functions ----
+
 const isTimeAvailable = (slotStart, slotEnd, startTime, endTime) => {
   let convStart = convertToDecValue(slotStart);
 
@@ -284,10 +381,7 @@ const isTimeAvailable = (slotStart, slotEnd, startTime, endTime) => {
   let convBookedStart = convertToDecValue(startTime);
   let convBookedEnd = convertToDecValue(endTime);
 
-  return (
-    !(convStart >= convBookedStart && convStart <= convBookedEnd) ||
-    (convEnd <= convBookedStart && convEnd >= convBookedEnd)
-  );
+  return convEnd < convBookedStart || convStart > convBookedEnd;
 };
 
 const convertToDecValue = (timeInHHMMPM) => {
@@ -310,4 +404,7 @@ export {
   bookAppointment,
   getAvailableTimes,
   getUserAppointments,
+  cancelAppointment,
+  paymentRazorpay,
+  verifyPaymentRazorpay,
 };

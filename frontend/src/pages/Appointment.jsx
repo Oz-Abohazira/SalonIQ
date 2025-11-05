@@ -164,9 +164,7 @@ const Appointment = () => {
 
     try {
       // Call available times API
-      const { data } = await axios.post(backendUrl + baseUserUrl + '/time-available', { slotDate, dayTimes }, { headers: { token } });
-
-      console.log(data.availableTimes)
+      const { data } = await axios.post(backendUrl + baseUserUrl + '/time-available', { slotDate, dayTimes }, { headers: { token } });    
 
       if (data.success) {
         setTimeSlots([...data.availableTimes]); // spread to force a new array reference
