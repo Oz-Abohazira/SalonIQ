@@ -3,7 +3,9 @@ import bcrypt from "bcrypt";
 import { v2 as cloudinary } from "cloudinary";
 import serviceModel from "../models/serviceModel.js";
 import jwt from "jsonwebtoken";
+import appointmentModel from "../models/appointmentModel.js";
 
+// API to add service
 const addService = async (req, res) => {
   try {
     const requiredFields = [
@@ -40,28 +42,9 @@ const addService = async (req, res) => {
 
     const imageFile = req.file;
 
-    // // Validators
-    // if (!validator.isEmail(email)) {
-    //   return res.json({
-    //     success: false,
-    //     message: "Please Enter a Valid Email",
-    //   });
-    // }
-
-    // if (password.length < 6) {
-    //   return res.json({
-    //     success: false,
-    //     message: "Password length must exceed 6 characters",
-    //   });
-    // }
-
     if (!imageFile) {
       return res.json({ success: false, message: "Image file is required" });
     }
-
-    // // Encrypting password
-    // const salt = await bcrypt.genSalt(10);
-    // const hashedPassword = await bcrypt.hash(password, salt);
 
     // upload image to cloudinary
     const imageUpload = await cloudinary.uploader.upload(imageFile.path, {
@@ -89,10 +72,10 @@ const addService = async (req, res) => {
 
     await newService.save();
 
-    res.json({ success: true, message: "Service Added !" });
+    return res.json({ success: true, message: "Service Added !" });
   } catch (error) {
     console.log(error);
-    res.json({ success: false, message: error.message });
+    return res.json({ success: false, message: error.message });
   }
 };
 
@@ -106,26 +89,69 @@ const loginAdmin = async (req, res) => {
       password === process.env.ADMIN_PASSWORD
     ) {
       const token = jwt.sign(email + password, process.env.JWT_SECRET);
-      res.json({ success: true, token });
+      return res.json({ success: true, token });
     } else {
-      res.json({ success: false, message: "Email or password is incorrect" });
+      return res.json({
+        success: false,
+        message: "Email or password is incorrect",
+      });
     }
   } catch (error) {
     console.log(error);
-    res.json({ success: false, message: error.message });
+    return res.json({ success: false, message: error.message });
   }
 };
 
-const getAllDoctors = async (req, res) => {
+// API to get all services
+const getAllServices = async (req, res) => {
   try {
-    // Example on how to remove a field from response
-    // const services = await serviceModel.find({}).select('-password')
     const services = await serviceModel.find({});
-    res.json({ success: true, services });
+    return res.json({ success: true, services });
   } catch (error) {
     console.error(error);
-    res.json({ success: false, message: error.message });
+    return res.json({ success: false, message: error.message });
   }
 };
 
-export { addService, loginAdmin, getAllDoctors };
+// API to get all appointments
+const getAllAppointments = async (req, res) => {
+  try {
+    const appointments = await appointmentModel.find({});
+    return res.json({ success: true, appointments });
+  } catch (error) {
+    console.error(error);
+    return res.json({ success: false, message: error.message });
+  }
+};
+
+// API to cancel appointments
+const cancelAppointment = async (req, res) => {
+  try {
+    const { appointmentID } = req.body;
+
+    const appointmentData = await appointmentModel.findById(appointmentID);
+
+    await appointmentModel.findByIdAndUpdate(appointmentID, {
+      is_canceled: true,
+    });
+
+    // Removing booked time from the service object
+    const { serviceID, slotDate, slotStart, slotEnd } = appointmentData;
+    const serviceData = await serviceModel.findById(serviceID);
+
+    let slotsBooked = serviceData.slotsBooked;
+
+    slotsBooked[slotDate] = slotsBooked[slotDate].filter(
+      (item) => item.startTime !== slotStart && item.endTime !== slotEnd
+    );
+
+    await serviceModel.findByIdAndUpdate(serviceID, { slotsBooked });
+
+    return res.json({ success: true, message: "Appointment Cancelled" });
+  } catch (error) {
+    console.log(error.message);
+    return res.json({ success: false, message: error.message });
+  }
+};
+
+export { addService, loginAdmin, getAllServices, getAllAppointments, cancelAppointment };

@@ -1,8 +1,10 @@
 import express from "express";
 import {
-  getAllDoctors,
+  getAllServices,
   addService,
   loginAdmin,
+  getAllAppointments,
+  cancelAppointment,
 } from "../controllers/adminController.js";
 import upload from "../middlewares/multar.js";
 import { authenticateAdmin } from "../middlewares/authAdmin.js";
@@ -16,9 +18,12 @@ adminRouter.post(
   upload.single("image"),
   addService
 );
-
 adminRouter.post("/login", loginAdmin);
-adminRouter.get("/all-services", authenticateAdmin, getAllDoctors);
+adminRouter.post("/cancel-appointment", authenticateAdmin, cancelAppointment);
+
+adminRouter.get("/all-services", authenticateAdmin, getAllServices);
+adminRouter.get("/all-appointments", authenticateAdmin, getAllAppointments);
+
 adminRouter.put("/change-availability", authenticateAdmin, changeAvailability);
 
 export default adminRouter;

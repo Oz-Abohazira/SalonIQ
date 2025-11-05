@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom'
 
 const MyAppointments = () => {
 
-  const { backendUrl, baseUserUrl, token, loadAllServices } = useContext(AppContext)
+  const { backendUrl, baseUserUrl, token, currency, loadAllServices } = useContext(AppContext)
 
   const [appointments, setAppointments] = useState([])
   const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
