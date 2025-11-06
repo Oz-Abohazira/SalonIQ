@@ -1,27 +1,21 @@
 import express from "express";
 import cors from "cors";
 import "dotenv/config";
-// import connectDB from "./config/mongodb.js";
-// import connectCloudinary from "./config/cloudinary.js";
-// import adminRouter from "./routes/adminRoute.js";
-// import serviceRouter from "./routes/serviceRoute.js";
-// import userRouter from "./routes/userRoute.js";
+import connectDB from "./config/mongodb.js";
+import connectCloudinary from "./config/cloudinary.js";
+import adminRouter from "./routes/adminRoute.js";
+import serviceRouter from "./routes/serviceRoute.js";
+import userRouter from "./routes/userRoute.js";
 
 // App Config
 const app = express();
 const port = process.env.PORT || 4000;
-// connectDB();
-// connectCloudinary();
 
 // Middlewares
-app.use(express.json());
+app.use(express.json({ limit: "10mb" }));
 app.use(cors());
 
-// API Endpoints
-// app.use("/api/admin", adminRouter);
-// app.use("/api/service", serviceRouter);
-// app.use("/api/user", userRouter);
-
+// Health check that doesn't wait on external services
 app.get("/", (req, res) => {
   res.json({
     success: true,
@@ -31,22 +25,39 @@ app.get("/", (req, res) => {
   });
 });
 
-// Test endpoint without DB
-app.get("/api/test", (req, res) => {
-  res.json({
-    success: true,
-    message: "Test endpoint working",
-    envVarsPresent: {
-      mongoUri: !!process.env.MODGODB_URI,
-      cloudinaryName: !!process.env.CLOUDINARY_NAME,
-      jwtSecret: !!process.env.JWT_SECRET,
-    },
-  });
+// Lazy init for serverless (first /api request only)
+let initDone = false;
+let initPromise = null;
+async function ensureInit() {
+  if (initDone) return;
+  if (!initPromise) {
+    initPromise = Promise.all([connectDB(), connectCloudinary()])
+      .then(() => {
+        initDone = true;
+        console.log("Initialization complete");
+      })
+      .catch((err) => {
+        console.error("Initialization failed:", err);
+        // do not rethrow to avoid hanging the function
+      });
+  }
+  await initPromise;
+}
+
+// Apply init before API routes
+app.use("/api", async (req, res, next) => {
+  await ensureInit();
+  next();
 });
 
+// API Endpoints
+app.use("/api/admin", adminRouter);
+app.use("/api/service", serviceRouter);
+app.use("/api/user", userRouter);
+
+// Local dev only
 if (!process.env.VERCEL) {
   app.listen(port, () => console.log("Server Started at " + port));
 }
 
-// app.listen(port, () => console.log("Server Started at " + port));
 export default app;

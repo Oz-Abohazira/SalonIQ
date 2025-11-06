@@ -1,27 +1,43 @@
 import mongoose from "mongoose";
 
-let isConnected = false;
+let cached = global.__mongoose;
+if (!cached) {
+  cached = global.__mongoose = { conn: null, promise: null };
+}
 
 const connectDB = async () => {
-  if (isConnected) {
-    console.log('Using existing database connection');
-    return;
-  }
+  if (cached.conn) return cached.conn;
 
-  try {
-    mongoose.connection.on("connected", () =>
-      console.log("Database is Connected")
-    );
+  if (!cached.promise) {
+    const uri = process.env.MONGODB_URI || process.env.MODGODB_URI; // fallback if you set the typo
+    if (!uri) {
+      console.error("Missing MONGODB_URI");
+      return null;
+    }
 
-    await mongoose.connect(`${process.env.MODGODB_URI}/saloniq`, {
+    const opts = {
       bufferCommands: false,
-    });
-    
-    isConnected = true;
-  } catch (error) {
-    console.error('Database connection error:', error);
-    throw error;
+      maxPoolSize: 5,
+      serverSelectionTimeoutMS: 5000,
+      socketTimeoutMS: 45000,
+      family: 4,
+    };
+
+    cached.promise = mongoose
+      .connect(`${uri}/saloniq`, opts)
+      .then((m) => {
+        console.log("MongoDB connected");
+        return m;
+      })
+      .catch((err) => {
+        console.error("MongoDB connection error:", err.message);
+        cached.promise = null;
+        return null;
+      });
   }
+
+  cached.conn = await cached.promise;
+  return cached.conn;
 };
 
 export default connectDB;

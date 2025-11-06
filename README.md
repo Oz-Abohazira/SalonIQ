@@ -90,7 +90,7 @@ You'll need to create `.env` files in specific directories. Here's what you need
 PORT=4000
 
 # MongoDB credentials
-MODGODB_URI=your_mongo_uri
+MONGODB_URI=your_mongo_uri
 
 # Cloudinary credentials (sign up at cloudinary.com)
 CLOUDINARY_NAME=your_cloudinary_name
