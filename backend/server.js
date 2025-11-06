@@ -26,4 +26,5 @@ app.get("/", (req, res) => {
   res.send("API Working Fine");
 });
 
-app.listen(port, () => console.log("Server Started at " + port));
+// app.listen(port, () => console.log("Server Started at " + port));
+export default app;
