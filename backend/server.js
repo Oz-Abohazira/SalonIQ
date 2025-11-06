@@ -3,9 +3,9 @@ import cors from "cors";
 import "dotenv/config";
 // import connectDB from "./config/mongodb.js";
 // import connectCloudinary from "./config/cloudinary.js";
-import adminRouter from "./routes/adminRoute.js";
-import serviceRouter from "./routes/serviceRoute.js";
-import userRouter from "./routes/userRoute.js";
+// import adminRouter from "./routes/adminRoute.js";
+// import serviceRouter from "./routes/serviceRoute.js";
+// import userRouter from "./routes/userRoute.js";
 
 // App Config
 const app = express();
@@ -44,7 +44,7 @@ app.get("/api/test", (req, res) => {
   });
 });
 
-if (process.env.NODE_ENV && process.env.NODE_ENV !== "production") {
+if (!process.env.VERCEL) {
   app.listen(port, () => console.log("Server Started at " + port));
 }
 
