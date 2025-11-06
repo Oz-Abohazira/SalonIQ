@@ -12,7 +12,7 @@
     "server": "nodemon server.js",
     "dev": "nodemon server.js",
     "build": "echo 'No build step required'",
-    "vercel-build": "echo 'Building for vercel"
+    "vercel-build": "echo \"Building for Vercel...\""
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
