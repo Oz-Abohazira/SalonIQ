@@ -5,6 +5,7 @@ import {
   loginAdmin,
   getAllAppointments,
   cancelAppointment,
+  adminDashboard,
 } from "../controllers/adminController.js";
 import upload from "../middlewares/multar.js";
 import { authenticateAdmin } from "../middlewares/authAdmin.js";
@@ -23,6 +24,7 @@ adminRouter.post("/cancel-appointment", authenticateAdmin, cancelAppointment);
 
 adminRouter.get("/all-services", authenticateAdmin, getAllServices);
 adminRouter.get("/all-appointments", authenticateAdmin, getAllAppointments);
+adminRouter.get("/dashboard", authenticateAdmin, adminDashboard);
 
 adminRouter.put("/change-availability", authenticateAdmin, changeAvailability);
 

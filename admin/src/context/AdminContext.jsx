@@ -10,10 +10,20 @@ const AdminContextProvider = (props) => {
     const [aToken, setAToken] = useState(localStorage.getItem('aToken') || '');
     const [services, setServices] = useState();
     const [appointments, setAppointments] = useState([]);
+    const [dashData, setDashData] = useState(false);
 
     const backendUrl = import.meta.env.VITE_BACKEND_URL;
     const baseAdminPath = import.meta.env.VITE_ADMIN_BASE_PATH;
     const currencySymbol = '$';
+
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+    const slotDateFormat = (slotDate) => {
+        const dateArray = slotDate.split('_');
+
+        return months[Number(dateArray[1] - 1)] + ' ' + dateArray[0] + ', ' + dateArray[2];
+    }
 
     const getAllServices = async () => {
         try {
@@ -74,6 +84,7 @@ const AdminContextProvider = (props) => {
             if (data.success) {
                 toast.success(data.message);
                 getAllAppointments()
+                getDashboardData()
             } else {
                 toast.error(data.message);
             }
@@ -84,12 +95,30 @@ const AdminContextProvider = (props) => {
         }
     }
 
+    const getDashboardData = async () => {
+        try {
+            const { data } = await axios.get(backendUrl + baseAdminPath + '/dashboard', { headers: { aToken } });
+
+            if (data.success) {
+                setDashData(data.dashData);
+
+            } else {
+                toast.error(data.message);
+            }
+        } catch (error) {
+            console.error(error.message);
+            toast.error(error.message);
+        }
+
+    }
+
     const value = {
         aToken, setAToken,
         backendUrl, baseAdminPath, currencySymbol,
         services, getAllServices, changeAvailability,
         getAllAppointments, appointments, setAppointments,
-        cancelAppointment
+        cancelAppointment, dashData, getDashboardData, 
+        slotDateFormat,
     }
 
     return (

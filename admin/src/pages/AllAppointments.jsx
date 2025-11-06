@@ -6,15 +6,7 @@ import { assets } from '../assets/assets';
 
 const AllAppointments = () => {
 
-  const { aToken, appointments, getAllAppointments, cancelAppointment, currencySymbol } = useContext(AdminContext);
-  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
-  const slotDateFormat = (slotDate) => {
-    const dateArray = slotDate.split('_');
-
-    return months[Number(dateArray[1] - 1)] + ' ' + dateArray[0] + ', ' + dateArray[2];
-  }
+  const { aToken, appointments, getAllAppointments, cancelAppointment, slotDateFormat, currencySymbol } = useContext(AdminContext);
 
   useEffect(() => {
     if (aToken) {

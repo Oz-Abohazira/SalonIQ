@@ -3,6 +3,8 @@ import admin_logo from './logo_admin_panel.png'
 import appointment_icon from './appointment_icon.svg'
 import cancel_icon from './cancel_icon.svg'
 import home_icon from './home_icon.svg'
+import client_icon from './client.svg'
+import service_icon from './service_icon.svg'
 import people_icon from './people_icon.svg'
 import upload_area from './upload_area.svg'
 import list_icon from './list_icon.svg'
@@ -19,6 +21,8 @@ export const assets = {
     appointment_icon,
     cancel_icon,
     upload_area,
+    client_icon,
+    service_icon,
     home_icon,
     sidebar_icon_left,
     sidebar_icon_right,

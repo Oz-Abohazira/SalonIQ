@@ -33,12 +33,18 @@ const Appointment = () => {
     fetchServiceData()
   }, [servicesData, serviceID])
 
+  useEffect(() => {
+    getAvailableSlots()
+
+  }, [serviceInfo])
+
   const getAvailableSlots = async () => {
     // Getting current date
     let today = new Date()
     let timeStep = 30  //serviceInfo.durationInMinutes;
+    setServiceSlots([])
 
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 30; i++) {
       // Getting date with index
       let currentDate = new Date(today)
       currentDate.setDate(today.getDate() + i);
@@ -86,11 +92,6 @@ const Appointment = () => {
       setServiceSlots(prev => ([...prev, times]))
     }
   }
-
-  useEffect(() => {
-    getAvailableSlots()
-
-  }, [serviceInfo])
 
   const bookAppointment = async () => {
     if (!token) {
@@ -164,7 +165,7 @@ const Appointment = () => {
 
     try {
       // Call available times API
-      const { data } = await axios.post(backendUrl + baseUserUrl + '/time-available', { slotDate, dayTimes }, { headers: { token } });    
+      const { data } = await axios.post(backendUrl + baseUserUrl + '/time-available', { slotDate, dayTimes }, { headers: { token } });
 
       if (data.success) {
         setTimeSlots([...data.availableTimes]); // spread to force a new array reference

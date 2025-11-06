@@ -4,6 +4,7 @@ import { v2 as cloudinary } from "cloudinary";
 import serviceModel from "../models/serviceModel.js";
 import jwt from "jsonwebtoken";
 import appointmentModel from "../models/appointmentModel.js";
+import userModel from "../models/userModel.js";
 
 // API to add service
 const addService = async (req, res) => {
@@ -154,4 +155,32 @@ const cancelAppointment = async (req, res) => {
   }
 };
 
-export { addService, loginAdmin, getAllServices, getAllAppointments, cancelAppointment };
+// API to get dashboard data
+const adminDashboard = async (req, res) => {
+  try {
+    const allServices = await serviceModel.find({});
+    const users = await userModel.find({});
+    const appointments = await appointmentModel.find({});
+
+    const dashData = {
+      services: allServices.length,
+      appointments: appointments.length,
+      clients: users.length,
+      latestAppointments: appointments.reverse(),
+    };
+
+    return res.json({ success: true, dashData });
+  } catch (error) {
+    console.log(error.message);
+    return res.json({ success: false, message: error.message });
+  }
+};
+
+export {
+  addService,
+  loginAdmin,
+  getAllServices,
+  getAllAppointments,
+  cancelAppointment,
+  adminDashboard,
+};
