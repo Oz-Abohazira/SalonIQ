@@ -1,10 +1,11 @@
 import React from 'react';
 import { assets } from '../assets/assets';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useContext } from 'react';
 import { AdminContext } from '../context/AdminContext';
 import axios from 'axios';
 import { toast } from 'react-toastify'
+import { useNavigate } from 'react-router-dom'
 
 const Login = () => {
     const inputStyle = 'border border-[#DADADA] rounded w-full p-2 mt-1';
@@ -12,7 +13,9 @@ const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const { setAToken, backendUrl, baseAdminPath } = useContext(AdminContext);
+    const { aToken, setAToken, backendUrl, baseAdminPath } = useContext(AdminContext);
+
+    const navigate = useNavigate()
 
     const onSubmitHandler = async (event) => {
         event.preventDefault();
@@ -42,6 +45,13 @@ const Login = () => {
             console.log(error)
         }
     }
+
+    useEffect(() => {
+        if (aToken) {
+          navigate('/dashboard')
+        } 
+      }, [aToken])
+
 
     return (
         <form onSubmit={onSubmitHandler} className='min-h-[80vh] flex items-center'>

@@ -189,7 +189,7 @@ export const popularServices = [
     name: `Men's Haircut`,
   },
   {
-    name: "Extension",
+    name: "Extensions",
   },
   {
     name: "Full Highlights",
