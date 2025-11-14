@@ -5,7 +5,7 @@ import { useContext } from 'react';
 import { AdminContext } from './context/AdminContext';
 import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, Navigate } from 'react-router-dom';
 import Dashboard from './pages/Dashboard';
 import AllAppointments from './pages/AllAppointments';
 import AddService from './pages/AddService';
@@ -23,7 +23,7 @@ const App = () => {
         <Sidebar />
         <div className='flex-1 overflow-auto'>
           <Routes>
-            <Route path='/' element={<></>} ></Route>
+            <Route path='/' element={<Navigate to="/dashboard" replace />} />
             <Route path='/dashboard' element={<Dashboard />} ></Route>
             <Route path='/all-appointments' element={<AllAppointments />} ></Route>
             <Route path='/add-service' element={<AddService />} ></Route>
