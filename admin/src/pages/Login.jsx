@@ -10,8 +10,8 @@ import { useNavigate } from 'react-router-dom'
 const Login = () => {
     const inputStyle = 'border border-[#DADADA] rounded w-full p-2 mt-1';
 
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('admin@saloniq.com');
+    const [password, setPassword] = useState('12123456');
 
     const { aToken, setAToken, backendUrl, baseAdminPath } = useContext(AdminContext);
 
